@@ -124,6 +124,10 @@ nav {
   justify-content: space-between;
 }
 
+.about-text {
+  padding: 15px;
+}
+
 .hero-text {
   flex: 1;
   padding-right: 40px;
