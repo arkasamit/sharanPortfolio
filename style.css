@@ -516,25 +516,32 @@ section {
 
 .contact-form {
   flex: 1;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 22px;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(2, 6, 20, 0.45);
 }
 
 .contact-item {
   display: flex;
-  align-items: flex-start;
-  margin-bottom: 30px;
+  align-items: center; /* align icon vertically with text */
+  gap: 18px;
+  padding: 18px 12px; /* added padding for breathing room */
+  margin-bottom: 18px;
+  background: rgba(255, 255, 255, 0.01); /* subtle surface to separate items */
+  border-radius: 10px;
 }
 
 .contact-icon {
-  width: 50px;
-  height: 50px;
+  width: 56px;
+  height: 56px;
   background-color: var(--primary);
-  border-radius: 50%;
+  border-radius: 10px; /* square with rounded corners for a modern look */
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 20px;
   color: white;
-  font-size: 1.2rem;
+  font-size: 1.1rem; /* consistent icon size */
 }
 
 .contact-details h3 {
@@ -547,7 +554,7 @@ section {
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .form-control {
@@ -579,11 +586,13 @@ footer {
 .footer-content {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
+  gap: 24px;
 }
 
 .footer-col {
   flex: 1;
+  padding: 8px 12px; /* breathing room inside each footer column */
 }
 
 .footer-col h3 {
@@ -610,7 +619,8 @@ footer {
 
 .social-links {
   display: flex;
-  gap: 15px;
+  gap: 14px;
+  margin-top: 12px; /* add spacing below the paragraph */
 }
 
 .social-links a {
@@ -623,6 +633,14 @@ footer {
   border-radius: 50%;
   color: white;
   transition: all 0.3s;
+}
+
+/* prevent icons from shrinking inside flex containers */
+.contact-icon,
+.social-links a {
+  flex: 0 0 auto;
+  min-width: 40px;
+  min-height: 40px;
 }
 
 .social-links a:hover {
@@ -727,6 +745,17 @@ footer {
   .hero h1 {
     font-size: 2.5rem;
   }
+
+  /* keep contact and social icons legible on tablet/mobile */
+  .contact-icon {
+    width: 56px;
+    height: 56px;
+    font-size: 1.1rem;
+  }
+  .social-links a {
+    width: 44px;
+    height: 44px;
+  }
 }
 
 /* Portfolio grid adjustments for tablet/mobile */
@@ -750,6 +779,17 @@ footer {
   .profile-img {
     width: 180px;
     height: 180px;
+  }
+
+  /* ensure social icons and contact icons don't shrink on small screens */
+  .contact-icon {
+    width: 52px;
+    height: 52px;
+    font-size: 1.05rem;
+  }
+  .social-links a {
+    width: 42px;
+    height: 42px;
   }
 }
 
