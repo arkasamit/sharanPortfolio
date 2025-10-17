@@ -36,19 +36,26 @@ body {
 
 /* Header & Navigation */
 header {
-  background-color: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  /* stronger, semi-opaque dark header so it separates from the hero */
+  background: linear-gradient(
+    180deg,
+    rgba(6, 8, 18, 0.92),
+    rgba(8, 10, 20, 0.88)
+  );
+  box-shadow: 0 16px 50px rgba(2, 6, 20, 0.75);
   position: fixed;
   width: 100%;
   top: 0;
-  z-index: 1000;
+  z-index: 1100;
+  border-bottom: 1px solid rgba(124, 92, 255, 0.06); /* subtle purple tint */
+  backdrop-filter: blur(6px);
 }
 
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 0;
+  padding: 12px 0; /* slightly tighter to lift content below */
 }
 
 .logo {
@@ -88,12 +95,16 @@ nav {
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 70px;
-  right: 20px;
-  background: white;
-  padding: 16px;
+  top: 64px;
+  right: 16px;
+  background: linear-gradient(
+    180deg,
+    rgba(6, 8, 18, 0.98),
+    rgba(8, 10, 20, 0.95)
+  );
+  padding: 14px;
   border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 18px 40px rgba(2, 6, 20, 0.6);
   z-index: 1200;
 }
 
@@ -247,7 +258,7 @@ section {
 .about-text h3 {
   font-size: 1.8rem;
   margin-bottom: 20px;
-  color: var(--dark);
+  color: #e6e9f7;
 }
 
 .about-text p {
@@ -790,6 +801,12 @@ footer {
   .timeline-content {
     padding-top: 40px;
   }
+
+  .btn-outline {
+    margin-top: 10px;
+    padding: 12px 30px;
+    margin-left: 0;
+  }
 }
 
 @media (max-width: 480px) {
@@ -808,4 +825,350 @@ footer {
   .badge .stat {
     font-size: 0.95rem;
   }
+}
+
+/* ---------------------------
+   Dark theme + gradient
+   Professional designer CV
+   Appended overrides keep layout & responsiveness
+   --------------------------- */
+
+:root {
+  --d-primary: #7c5cff; /* violet */
+  --d-secondary: #5a48c8; /* deeper violet */
+  --d-accent: #ff7a9b; /* warm pink accent */
+  --d-bg-1: #020114; /* very deep near-black with subtle indigo */
+  --d-bg-2: #071226; /* deep midnight navy */
+  --d-surface: rgba(255, 255, 255, 0.03);
+  --d-card: rgba(255, 255, 255, 0.04);
+  --d-text: #e8f0ff;
+  --d-muted: #9fb3d6;
+}
+
+/* Page background: subtle diagonal gradient with faint texture-like tone */
+body {
+  /* layered background: subtle vignette over a deep diagonal gradient */
+  background: radial-gradient(
+      1200px 600px at 10% 10%,
+      rgba(0, 0, 0, 0.14),
+      transparent 20%
+    ),
+    linear-gradient(135deg, var(--d-bg-1) 0%, var(--d-bg-2) 100%);
+  color: var(--d-text);
+}
+
+/* Make header translucent so background shows through */
+header {
+  background: linear-gradient(
+    180deg,
+    rgba(6, 8, 12, 0.74),
+    rgba(6, 8, 12, 0.55)
+  );
+  box-shadow: 0 8px 36px rgba(2, 6, 23, 0.65);
+  backdrop-filter: blur(6px);
+}
+
+.logo {
+  color: var(--d-primary);
+}
+
+.nav-links a {
+  color: var(--d-text);
+}
+.nav-links a:hover {
+  color: var(--d-primary);
+}
+
+/* Navigation background for desktop: deeper navy gradient with light-blue accent */
+header nav {
+  background: linear-gradient(
+    30deg,
+    #000000 0%,
+    #2f4789 55%,
+    rgb(4 57 88) 100%
+  );
+  padding: 20px 30px;
+  border-radius: 20px;
+}
+
+/* Mobile menu background tweak */
+.nav-links.active {
+  background: linear-gradient(
+    180deg,
+    rgba(6, 8, 15, 0.95),
+    rgba(10, 14, 25, 0.95)
+  );
+}
+
+/* Ensure mobile nav uses the darker navy so it feels cohesive */
+.nav-links.active {
+  background: linear-gradient(180deg, #071026, #03061a);
+}
+
+/* Highlight 'Experience' nav item specifically to make it more attractive */
+.nav-links li a[href="#experience"] {
+  position: relative;
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: var(--lt-blue-2);
+  box-shadow: 0 6px 22px rgba(63, 184, 255, 0.07);
+}
+.nav-links li a[href="#experience"]::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--lt-blue), var(--lt-blue-2));
+  border-radius: 2px;
+}
+
+/* Change 'About' nav link color to a subtle tint and About section heading */
+.nav-links li a[href="#about"] {
+  color: var(--d-muted);
+  opacity: 0.95;
+}
+
+#about .section-title h2 {
+  color: var(--lt-blue-2);
+}
+
+/* Hero: soften light areas to match dark theme */
+.hero {
+  background: transparent; /* let body gradient show */
+}
+
+.hero-text h1,
+.section-title h2 {
+  color: #ffffff;
+}
+
+.hero p,
+.section-title p {
+  color: var(--d-muted);
+}
+
+/* Cards & panels */
+.stat,
+.skill-category,
+.timeline-content,
+.contact-form,
+.portfolio-item,
+.about-text,
+.contact-info,
+.footer-col {
+  background-color: var(--d-card);
+  color: var(--d-text);
+  box-shadow: 0 12px 40px rgba(2, 6, 23, 0.6);
+}
+
+.stat i {
+  color: var(--d-primary);
+}
+
+.stat p,
+.timeline-content p,
+.about-text p,
+.footer-col p {
+  color: var(--d-muted);
+}
+
+/* Buttons */
+.btn {
+  background: linear-gradient(90deg, var(--d-primary), var(--d-secondary));
+  color: white;
+  box-shadow: 0 12px 30px rgba(92, 64, 200, 0.14);
+}
+.btn-outline {
+  background: transparent;
+  border: 2px solid rgba(124, 92, 255, 0.12);
+  color: var(--d-primary);
+}
+.btn-outline:hover {
+  background: linear-gradient(90deg, var(--d-primary), var(--d-secondary));
+  color: white;
+}
+
+/* Portfolio overlay uses strong, readable gradient */
+.portfolio-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(124, 92, 255, 0.95),
+    rgba(90, 72, 200, 0.95)
+  );
+}
+
+.portfolio-overlay h3 {
+  color: #fff;
+}
+.portfolio-overlay p {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Profile image adjustments for dark theme */
+.profile-img {
+  border: 4px solid rgba(255, 255, 255, 0.03);
+  box-shadow: 0 18px 50px rgba(4, 8, 18, 0.7);
+}
+
+/* Forms */
+.form-control {
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--d-text);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+.form-control::placeholder {
+  color: rgba(232, 240, 255, 0.45);
+}
+
+/* Timeline vertical line color */
+.timeline::before {
+  background: linear-gradient(180deg, var(--d-primary), var(--d-secondary));
+}
+
+/* Footer */
+footer {
+  background: linear-gradient(180deg, #030615, #071021);
+  color: var(--d-text);
+}
+.footer-links a {
+  color: rgba(232, 240, 255, 0.75);
+}
+.footer-links a:hover {
+  color: var(--d-primary);
+}
+
+/* Demo message style matching designer tone */
+.demo-message {
+  background: linear-gradient(90deg, var(--d-accent), var(--d-primary));
+  color: white;
+  box-shadow: 0 -8px 40px rgba(2, 6, 23, 0.6);
+}
+
+/* Badge contrast tweak */
+.badge {
+  background: linear-gradient(135deg, var(--d-primary), var(--d-secondary));
+  color: white;
+}
+
+/* Accessibility tweaks: increase contrast for headings */
+.stat h4,
+.timeline-content h3,
+.hero h1,
+.section-title h2 {
+  color: #ffffff;
+}
+
+/* small screens: ensure background and cards remain legible */
+@media (max-width: 768px) {
+  .nav-links.active {
+    background: rgba(6, 8, 15, 0.98);
+  }
+  .portfolio-item {
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+}
+
+/* ---------------------------
+   Animated gradient overlay + section animations
+   Adds subtle light-blue motion and entry animations
+   --------------------------- */
+
+/* light-blue accent for highlights */
+:root {
+  --lt-blue: #6fd6ff; /* light cyan-blue */
+  --lt-blue-2: #3fb8ff;
+}
+
+/* animated soft gradient that moves very slowly */
+.animated-gradient {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(63, 184, 255, 0.06) 0%,
+    rgba(124, 92, 255, 0.04) 35%,
+    rgba(63, 184, 255, 0.06) 70%
+  );
+  mix-blend-mode: overlay;
+  animation: gradient-shift 18s linear infinite;
+}
+
+@keyframes gradient-shift {
+  0% {
+    transform: translateX(-10%);
+  }
+  50% {
+    transform: translateX(10%);
+  }
+  100% {
+    transform: translateX(-10%);
+  }
+}
+
+/* subtle section reveal (fade + slide up) */
+.section-anim {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 700ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    transform 700ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+.section-anim.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* small element micro-interactions */
+.btn,
+.filter-btn,
+.social-links a {
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+.btn:hover,
+.filter-btn:hover,
+.social-links a:hover {
+  transform: translateY(-4px);
+}
+
+/* accent borders / glows */
+.nav-links a.active,
+.filter-btn.active {
+  box-shadow: 0 8px 28px rgba(63, 184, 255, 0.08),
+    0 2px 10px rgba(124, 92, 255, 0.06);
+  border-color: rgba(63, 184, 255, 0.18);
+}
+
+/* Use a thin light-blue underline for section titles */
+.section-title h2::after {
+  background: linear-gradient(90deg, var(--lt-blue), var(--lt-blue-2));
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animated-gradient {
+    animation: none;
+  }
+  .section-anim {
+    transition: none;
+    transform: none;
+    opacity: 1;
+  }
+  .btn,
+  .filter-btn,
+  .social-links a {
+    transition: none;
+  }
+}
+
+/* ensure overlay sits behind content but above body background */
+main,
+header,
+section,
+footer {
+  position: relative;
+  z-index: 1;
 }
