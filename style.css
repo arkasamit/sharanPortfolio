@@ -1365,9 +1365,6 @@ footer {
     padding-left: 50px;
     margin-bottom: 10px;
   }
-  .timeline-content {
-    margin-left: 20px;
-  }
   .timeline-content::before {
     left: -10px !important;
   }
