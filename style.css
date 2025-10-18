@@ -494,9 +494,16 @@ section {
 /* Experience Section */
 .timeline {
   position: relative;
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 40px 20px;
+  display: block; /* use block so child items can be aligned left/right */
+}
+/* clearfix for floated timeline items */
+.timeline::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 .timeline::before {
@@ -510,23 +517,53 @@ section {
 }
 
 .timeline-item {
-  display: flex;
-  justify-content: flex-end;
-  padding-right: 30px;
   position: relative;
-  margin: 40px 0;
-  width: 50%;
+  box-sizing: border-box;
   opacity: 0;
-  transform: translateX(-50px);
   transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  width: calc(50% - 20px); /* narrower gap so cards sit closer to center */
+  clear: both;
+  margin: 18px 0;
+  padding: 0;
 }
 
+/* Even items on the left */
 .timeline-item:nth-child(even) {
-  align-self: flex-end;
-  justify-content: flex-start;
-  padding-left: 30px;
-  padding-right: 0;
-  transform: translateX(50px);
+  float: left;
+  padding-left: 8px;
+}
+
+/* Odd items on the right */
+.timeline-item:nth-child(odd) {
+  float: right;
+  padding-right: 8px;
+}
+
+/* Position the date badge toward the central line: for left items place it on the right edge of the card, for right items place it on the left edge */
+.timeline-item:nth-child(even) .timeline-date {
+  left: auto;
+  right: -10px;
+}
+
+.timeline-item:nth-child(odd) .timeline-date {
+  right: auto;
+  left: -10px;
+}
+
+/* Make specific items (2 - Graphic Designer, 4 - UNICEF Award) sit closer to the center
+   and force their date badge to the left side (inner edge). These rules apply on larger screens
+   and will be overridden by mobile media queries. */
+.timeline-item:nth-child(2),
+.timeline-item:nth-child(4) {
+  width: calc(
+    50% - 6px
+  ); /* slightly wider so right/left edge moves toward center */
+}
+
+.timeline-item:nth-child(2) .timeline-date,
+.timeline-item:nth-child(4) .timeline-date {
+  left: -10px !important;
+  right: auto !important;
 }
 
 .timeline-item.visible {
@@ -564,6 +601,7 @@ section {
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   width: calc(100% - 40px);
+  max-width: 520px; /* limit content width so cards are visually equal */
   position: relative;
   transition: all 0.3s ease;
   display: flex;
@@ -667,6 +705,7 @@ section {
 
   .timeline-item {
     width: 100%;
+    float: none; /* remove floats on tablet/mobile */
     padding-left: 60px;
     padding-right: 15px;
     margin: 50px 0;
@@ -703,6 +742,35 @@ section {
     min-width: 120px;
     justify-content: center;
   }
+
+  /* Make experience cards uniform on tablet & mobile */
+  .timeline-item {
+    width: 100%;
+    float: none; /* ensure single-column flow */
+    padding-left: 0;
+    padding-right: 0;
+    margin: 20px 0;
+    display: flex;
+    justify-content: center; /* center the card */
+  }
+
+  .timeline-content {
+    width: calc(100% - 30px);
+    max-width: none;
+    box-sizing: border-box;
+    height: 320px; /* fixed, uniform height for responsive */
+    min-height: 320px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Let the paragraph area grow and scroll if too long */
+  .timeline-content p {
+    flex: 1 1 auto;
+    overflow: auto;
+    margin-bottom: 10px;
+  }
 }
 
 @media (max-width: 576px) {
@@ -729,6 +797,9 @@ section {
     padding: 6px 12px;
     left: 45px !important;
     top: -15px;
+  }
+  .timeline-item .infographic {
+    display: none;
   }
 
   .timeline-header {
@@ -943,6 +1014,51 @@ section {
 textarea.form-control {
   min-height: 150px;
   resize: vertical;
+}
+
+/* Tablet & Mobile: prevent contact info (email/URLs) from overflowing cards */
+@media (max-width: 992px) {
+  .contact-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .contact-item {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .contact-icon {
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+  }
+
+  .contact-details {
+    flex: 1 1 auto;
+    min-width: 0; /* allow children to break/wrap */
+  }
+
+  .contact-details h3 {
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+
+  .contact-details p {
+    white-space: normal; /* allow wrapping */
+    overflow-wrap: anywhere; /* break long URLs/emails */
+    word-break: break-word;
+    margin-bottom: 6px;
+  }
+}
+
+@media (max-width: 576px) {
+  .contact-details p {
+    font-size: 0.95rem;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
 }
 
 /* Footer */
@@ -1418,6 +1534,51 @@ footer {
   --d-muted: #9fb3d6;
 }
 
+/* Robust responsive fixes for timeline cards (tablet & mobile)
+   Prevent flex-shrink causing very narrow cards and ensure proper wrapping. */
+@media (max-width: 992px) {
+  /* ensure each timeline item centers its card but doesn't let it shrink */
+  .timeline-item {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+  }
+
+  /* Force content box to a consistent width and prevent shrinking */
+  .timeline-content {
+    flex: 0 0 calc(100% - 40px) !important;
+    box-sizing: border-box !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+    width: 230px;
+  }
+
+  /* Ensure paragraphs wrap and are scrollable if very long */
+  .timeline-content p {
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  /* same rules for smaller phones (stronger specificity) */
+  .timeline-item {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+  }
+  .timeline-content {
+    flex: 0 0 calc(100% - 40px) !important;
+    box-sizing: border-box !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+  }
+}
+
 /* Page background: subtle diagonal gradient with faint texture-like tone */
 body {
   /* layered background: subtle vignette over a deep diagonal gradient */
@@ -1691,10 +1852,6 @@ footer {
 
   .timeline-item:nth-child(even) .timeline-dot {
     left: 17px;
-  }
-
-  .timeline-content {
-    max-width: 100%;
   }
 }
 
