@@ -1,14 +1,66 @@
 // Portfolio JS extracted from index.html
 
 document.addEventListener('DOMContentLoaded', function () {
+  // Initialize Timeline Animations
+  const initTimelineAnimations = () => {
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          
+          // Animate stats if they exist
+          const stats = entry.target.querySelectorAll('.count');
+          stats.forEach(stat => {
+            const target = parseInt(stat.getAttribute('data-target'), 10);
+            if (!stat.getAttribute('data-animated')) {
+              animateValue(stat, 0, target, 1500);
+              stat.setAttribute('data-animated', 'true');
+            }
+          });
+        }
+      });
+    }, {
+      threshold: 0.2,
+      rootMargin: '-50px'
+    });
+
+    timelineItems.forEach(item => observer.observe(item));
+  };
+
+  // Animate number counting
+  const animateValue = (element, start, end, duration) => {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      const value = Math.floor(progress * (end - start) + start);
+      element.textContent = value;
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    };
+    window.requestAnimationFrame(step);
+  };
+
+  // Initialize animations
+  initTimelineAnimations();
+
   // Mobile Menu Toggle
   document.querySelector('.mobile-menu').addEventListener('click', function() {
     document.querySelector('.nav-links').classList.toggle('active');
   });
 
+  // Initialize Skills Animation
+  document.querySelectorAll('.skill-category').forEach(category => {
+    category.querySelectorAll('.skill-item').forEach((item, index) => {
+      item.style.setProperty('--item-index', index);
+    });
+  });
+
   // Portfolio Filtering
   const filterButtons = document.querySelectorAll('.filter-btn');
-  const portfolioItems = document.querySelectorAll('.portfolio-item');
   
   filterButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -36,32 +88,5 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Counters for experience infographics
-  const counts = document.querySelectorAll('.count');
-  if (counts.length) {
-    const runCounter = (el) => {
-      const target = +el.getAttribute('data-target');
-      const duration = 1200;
-      let start = 0;
-      const stepTime = Math.max(Math.floor(duration / target), 12);
-      const timer = setInterval(() => {
-        start += 1;
-        el.textContent = start;
-        if (start >= target) clearInterval(timer);
-      }, stepTime);
-    };
-
-    const observer = new IntersectionObserver((entries, obs) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.querySelectorAll('.count').forEach(c => runCounter(c));
-          obs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.4 });
-
-    document.querySelectorAll('.timeline .timeline-content').forEach(node => {
-      observer.observe(node);
-    });
-  }
+  // End of DOMContentLoaded
 });
